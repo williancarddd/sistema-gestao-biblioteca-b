@@ -1,0 +1,25 @@
+[
+  {
+    "name": "default",
+    "type": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "connectTimeout": 360000,
+    "acquireTimeout": 360000,
+    "timeout": 360000,
+    "username": "root",
+    "password": "biblioteca",
+    "database": "senhaforte",
+    "entities": [
+      "./**/entities/{*.ts,*js}"
+    ],
+    "migrations": [
+      "src/database/migrations/*.ts"
+    ],
+    "cli": {
+      "entitiesDir": "src/entities",
+      "migrationsDir": "src/database/migrations",
+      "subscribersDir": "src/subscriber"
+    }
+  }
+]
