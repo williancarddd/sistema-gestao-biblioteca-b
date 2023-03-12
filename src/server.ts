@@ -1,10 +1,8 @@
-import { createConnection } from "typeorm";
 import { customExpress, customExpressSSL } from "./app";
 import "reflect-metadata";
 
 async function startServer() {
   try {
-    await createConnection();
     customExpress().listen(3535, () =>
       console.log("Sistema Biblioteca rodando na http 3535")
     );

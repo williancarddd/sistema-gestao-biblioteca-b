@@ -7,10 +7,10 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     ports:
-      - '[database_port]:[databse_port]'
+      - '[3306]:[3306]'
     environment:
-      - MYSQL_ROOT_HOST=
-      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ROOT_HOST=localhost
+      - MYSQL_ROOT_PASSWORD=Bodepreto20!
     networks:
         - app-network
         
@@ -21,9 +21,9 @@ services:
     #   - need the database's port to run
     command: bash -c 'while !</dev/tcp/db/[database_port]; do sleep 1; done;npm run dev'
     ports:
-      - '[backend_port]:[backend_port]'
+      - '[3535]:[3535]'
     environment:
-      - PORT=[backend_port]
+      - PORT=[3535]
     depends_on:
       db:
         condition: service_started

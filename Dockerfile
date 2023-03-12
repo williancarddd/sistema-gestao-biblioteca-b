@@ -9,6 +9,6 @@ RUN npm install
 COPY . .
 
 # Insert the port to run the server
-EXPOSE [port]
+EXPOSE 3535
 
 CMD [ "npm", "run", "dev" ]
