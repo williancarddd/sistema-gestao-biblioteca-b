@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  db:
+    container_name: 'mysql-container'
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - '[database_port]:[databse_port]'
+    environment:
+      - MYSQL_ROOT_HOST=
+      - MYSQL_ROOT_PASSWORD=
+    networks:
+        - app-network
+        
+  app:
+    container_name: 'backend-container'
+    build: .
+    # This command serves to wait for the mysql database boot to before run the backend server
+    #   - need the database's port to run
+    command: bash -c 'while !</dev/tcp/db/[database_port]; do sleep 1; done;npm run dev'
+    ports:
+      - '[backend_port]:[backend_port]'
+    environment:
+      - PORT=[backend_port]
+    depends_on:
+      db:
+        condition: service_started
+    networks:
+        - app-network
+
+networks:
+  app-network:
+    driver: bridge
