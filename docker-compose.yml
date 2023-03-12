@@ -7,7 +7,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     ports:
-      - '[3306]:[3306]'
+      - '3306:3306'
     environment:
       - MYSQL_ROOT_HOST=localhost
       - MYSQL_ROOT_PASSWORD=Bodepreto20!
@@ -19,11 +19,15 @@ services:
     build: .
     # This command serves to wait for the mysql database boot to before run the backend server
     #   - need the database's port to run
-    command: bash -c 'while !</dev/tcp/db/[database_port]; do sleep 1; done;npm run dev'
+    command: > 
+      bash -c 'timeout $TIMEOUT sh -c "while !</dev/tcp/db/$DB_PORT; do sleep 1; done;npm run dev"'
     ports:
-      - '[3535]:[3535]'
+      - '3535:3535'
     environment:
-      - PORT=[3535]
+      - PORT=3535
+      - DB_PORT=3306
+      - TIMEOUT=60
+
     depends_on:
       db:
         condition: service_started
